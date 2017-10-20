@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Array based storage for Resumes
@@ -7,7 +8,14 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        storage = new Resume[0];
+        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
+        for(int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                storage[i] = null;
+            } else {
+                return;
+            }
+        }
     }
 
     void save(Resume r) {
@@ -17,13 +25,7 @@ public class ArrayStorage {
                 return;
             }
         }
-        Resume[] tempStorage;
-        tempStorage = storage;
-        storage = new Resume[storage.length + 1];
-        storage[storage.length - 1] = r;
-        for(int i = 0; i < tempStorage.length; i++) {
-            storage[i] = tempStorage[i];
-        }
+        System.out.println("Невозможно добавить элемент, т.к. массив заполнен.");
     }
 
     Resume get(String uuid) {
@@ -39,31 +41,29 @@ public class ArrayStorage {
         for(int i = 0; i < storage.length; i++) {
             if (storage[i] != null && uuid.equals(storage[i].uuid)) {
                 storage[i] = null;
+                break;
             }
         }
+        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] newStorage = new Resume[0];
-        Resume[] tempStorage;
-        for(Resume resume: storage) {
-            if (resume != null) {
-                tempStorage = newStorage;
-                newStorage = new Resume[newStorage.length + 1];
-                newStorage[newStorage.length-1] = resume;
-                for(int i = 0; i < tempStorage.length; i++) {
-                    newStorage[i] = tempStorage[i];
-                }
-
+        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
+        int indexFrom = 0;
+        int indexTo = 0;
+        for(int i = 0; i < storage.length; i++) {
+            indexTo = i;
+            if (storage[i] == null) {
+                break;
             }
         }
-        return newStorage;
+        return Arrays.copyOfRange(storage, indexFrom, indexTo);
     }
 
     int size() {
-        return storage.length;
+        return getAll().length;
     }
 }

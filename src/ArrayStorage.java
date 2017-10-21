@@ -9,44 +9,37 @@ public class ArrayStorage {
     private int factNumber = 0;
 
     void clear() {
-        factNumber = 0;
-        for(int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                storage[i] = null;
-            } else {
-                return;
-            }
+        for(int i = 0; i < factNumber; i++) {
+            storage[i] = null;
         }
+        factNumber = 0;
     }
 
     void save(Resume r) {
+        storage[factNumber] = r;
         factNumber++;
-        for(int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                return;
-            }
+        if (factNumber == 10000) {
+            System.out.println("Невозможно добавить элемент, т.к. массив заполнен.");
         }
-        System.out.println("Невозможно добавить элемент, т.к. массив заполнен.");
     }
 
     Resume get(String uuid) {
-        for(Resume resume: storage) {
-            if (resume != null && uuid.equals(resume.uuid)) {
-                return resume;
+        for(int i = 0; i < factNumber; i++) {
+            if (uuid.equals(storage[i].uuid)) {
+                return storage[i];
             }
         }
         return null;
     }
 
     void delete(String uuid) {
-        factNumber--;
-        for(int i = 0; i < storage.length; i++) {
-            if (storage[i] != null && uuid.equals(storage[i].uuid)) {
+        for(int i = 0; i < factNumber; i++) {
+            if (uuid.equals(storage[i].uuid)) {
                 storage[i] = null;
                 break;
             }
         }
+        factNumber--;
         Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
     }
 

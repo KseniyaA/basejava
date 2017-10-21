@@ -15,11 +15,12 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[factNumber] = r;
-        factNumber++;
         if (factNumber == 10000) {
             System.out.println("Невозможно добавить элемент, т.к. массив заполнен.");
+            return;
         }
+        storage[factNumber] = r;
+        factNumber++;
     }
 
     Resume get(String uuid) {

@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Array based storage for Resumes
@@ -35,12 +34,14 @@ public class ArrayStorage {
     void delete(String uuid) {
         for(int i = 0; i < factNumber; i++) {
             if (uuid.equals(storage[i].uuid)) {
-                storage[i] = null;
+                storage[i] = storage[factNumber-1];
+                storage[factNumber-1] = null;
                 break;
             }
         }
         factNumber--;
-        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
+        // не нужно сохранять порядок элементов, поэтому закоментировала стркоу с сортировкой
+        // Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
     }
 
     /**

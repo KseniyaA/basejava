@@ -6,9 +6,10 @@ import java.util.Comparator;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int factNumber = 0;
 
     void clear() {
-        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
+        factNumber = 0;
         for(int i = 0; i < storage.length; i++) {
             if (storage[i] != null) {
                 storage[i] = null;
@@ -19,6 +20,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
+        factNumber++;
         for(int i = 0; i < storage.length; i++) {
             if (storage[i] == null) {
                 storage[i] = r;
@@ -38,6 +40,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        factNumber--;
         for(int i = 0; i < storage.length; i++) {
             if (storage[i] != null && uuid.equals(storage[i].uuid)) {
                 storage[i] = null;
@@ -51,19 +54,10 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Arrays.sort(storage, Comparator.<Resume>nullsLast(Comparator.naturalOrder()));
-        int indexFrom = 0;
-        int indexTo = 0;
-        for(int i = 0; i < storage.length; i++) {
-            indexTo = i;
-            if (storage[i] == null) {
-                break;
-            }
-        }
-        return Arrays.copyOfRange(storage, indexFrom, indexTo);
+        return Arrays.copyOfRange(storage, 0, factNumber);
     }
 
     int size() {
-        return getAll().length;
+        return factNumber;
     }
 }

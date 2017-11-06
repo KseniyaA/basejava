@@ -7,26 +7,15 @@ import ru.javawebinar.basejava.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index == -1) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
-        } else {
-            storage[index] = r;
-        }
-    }
-
     @Override
     public void saveInIndex(int index, Resume r) {
         storage[index] = r;
-        size++;
     }
 
     @Override
     protected void deleteInIndex(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
-        size--;
     }
 
     protected int getIndex(String uuid) {

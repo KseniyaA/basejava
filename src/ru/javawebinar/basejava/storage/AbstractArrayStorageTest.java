@@ -6,9 +6,6 @@ import org.junit.Test;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-/**
- * Created by Ksu on 31.01.2018.
- */
 public class AbstractArrayStorageTest {
     private Storage storage;
 
